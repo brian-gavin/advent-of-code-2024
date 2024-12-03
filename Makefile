@@ -9,4 +9,4 @@ INPUT_FILES := $(patsubst src/bin/day%.rs, src/bin/%.txt, $(wildcard src/bin/*.r
 input: $(INPUT_FILES)
 
 %.txt:
-	curl https://adventofcode.com/2024/day/$*/input --cookie "session=$(SESSION)" > $@
+	curl https://adventofcode.com/2024/day/$(notdir $*)/input --cookie "session=$(SESSION)" > $@

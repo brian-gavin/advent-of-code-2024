@@ -1,4 +1,4 @@
-use std::{env::args, fmt::Display};
+use std::{env::args, fmt::Display, time::Instant};
 
 pub trait Solution<Output: Display> {
     type Input;
@@ -8,12 +8,14 @@ pub trait Solution<Output: Display> {
     fn part2(input: Self::Input) -> Output;
 
     fn run() {
+        let start = Instant::now();
         let input = Self::parse_input();
         let out = match part() {
             Part::One => Self::part1(input),
             Part::Two => Self::part2(input),
         };
         println!("{}", out);
+        println!("{:?}", start.elapsed())
     }
 }
 
