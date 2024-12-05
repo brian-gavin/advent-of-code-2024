@@ -1,5 +1,7 @@
 use std::{env::args, fmt::Display, time::Instant};
 
+pub mod grid;
+
 pub trait Solution<Output: Display> {
     type Input;
 
