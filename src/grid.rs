@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 pub struct Coord {
     row: isize,
     col: isize,
@@ -65,6 +65,7 @@ impl Coord {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct Grid<V> {
     map: HashMap<Coord, V>,
 }
@@ -74,8 +75,26 @@ impl<T> Grid<T> {
         self.map.get(&coord)
     }
 
+    pub fn at_mut(&mut self, coord: Coord) -> Option<&mut T> {
+        self.map.get_mut(&coord)
+    }
+
+    pub fn insert(&mut self, coord: Coord, v: T) -> Option<T> {
+        self.map.insert(coord, v)
+    }
+
     pub fn iter(&self) -> impl Iterator<Item = (&Coord, &T)> {
         self.map.iter()
+    }
+
+    pub fn swap(&mut self, a: Coord, b: Coord) {
+        assert_ne!(a, b);
+        let ap = self.map.get_mut(&a).unwrap() as *mut _;
+        let bp = self.map.get_mut(&b).unwrap() as *mut _;
+        // SAFETY: should be fine
+        unsafe {
+            std::ptr::swap(ap, bp);
+        };
     }
 }
 
